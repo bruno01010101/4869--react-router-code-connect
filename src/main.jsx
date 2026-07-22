@@ -7,6 +7,7 @@ import { Feed } from './pages/Feed/index.jsx'
 import { BlogPost } from './pages/BlogPost/index.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import ProtectedRoute from './components/ProtectedRoute/index.jsx'
+import Logout from './pages/Logout/index.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='/auth'>
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
+          <Route path='logout' element={<Logout />} />
         </Route>
         <Route path='/'>
           <Route path='' element={

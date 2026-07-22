@@ -14,20 +14,42 @@ import { TextDivider } from "../../components/TextDivider"
 import { Providers } from "../../components/Providers"
 import { Link } from "../../components/Link"
 import styles from './register.module.css'
+import { useAuth } from "../../hooks/useAuth"
+import { useNavigate } from "react-router"
 
 export const Register = () => {
+    const {register} = useAuth();
+    const navigate = useNavigate()
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+
+        const name = formData.get("name")
+        const email = formData.get("email")
+        const password = formData.get("password")
+
+        const resposta = register(name, email, password)
+        if(!resposta.success){
+            console.error(resposta.error)
+        }
+        else{
+            navigate('/auth/login')
+        }
+    }
     return (
         <AuthLayout>
             <AuthFormContainer bannerSrc={banner}>
                 <Typography variant="h1" color="--offwhite">Cadastro</Typography>
                 <Typography variant="h2" color="--offwhite">Olá! Preencha seus dados.</Typography>
-                <Form action="">
+                <Form action="" onSubmit={onSubmit}>
                     <Fieldset>
                         <Label>
                             Nome
                         </Label>
                         <Input
-                            name="nome"
+                            name="name"
                             id="nome"
                             placeholder="Nome completo"
                             required
@@ -55,10 +77,10 @@ export const Register = () => {
                             type="password"
                             required
                         />
-                        <Checkbox label="Lembrar-me" required />
+                        <Checkbox label="Lembrar-me" />
                     </Fieldset>
-                    <Button type="submit">
-                        Login <IconArrowFoward />
+                    <Button type="submit" >
+                        Cadastrar <IconArrowFoward />
                     </Button>
                 </Form>
                 <div>

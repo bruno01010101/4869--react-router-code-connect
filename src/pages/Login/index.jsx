@@ -14,14 +14,35 @@ import { TextDivider } from "../../components/TextDivider"
 import { Providers } from "../../components/Providers"
 import { Link } from "../../components/Link"
 import styles from './login.module.css'
+import { useAuth } from "../../hooks/useAuth"
+import { useNavigate } from "react-router"
 
 export const Login = () => {
+    const {login} = useAuth()
+    const navigate = useNavigate()
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+
+        const email = formData.get("email")
+        const password = formData.get("password")
+
+        const resposta = login(email, password)
+        if(!resposta.success){
+            console.error(resposta.error)
+        }
+        else{
+            navigate('/')
+        }
+    }
     return (
         <AuthLayout>
             <AuthFormContainer bannerSrc={banner}>
                 <Typography variant="h1" color="--offwhite">Login</Typography>
                 <Typography variant="h2" color="--offwhite">Boas-vindas! Faça seu login.</Typography>
-                <Form action="">
+                <Form action="" onSubmit={onSubmit}>
                     <Fieldset>
                         <Label>
                             E-mail
@@ -44,7 +65,7 @@ export const Login = () => {
                             type="password"
                             required
                         />
-                        <Checkbox label="Lembrar-me" required />
+                        <Checkbox label="Lembrar-me" />
                     </Fieldset>
                     <Button type="submit">
                         Login <IconArrowFoward />

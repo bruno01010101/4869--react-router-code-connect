@@ -54,7 +54,9 @@ export const useAuth = () => {
       const user = users.find(u => u.email === email && u.password === password)
       
       if (!user) {
+        console.log(email, password)
         throw new Error('Email ou senha incorretos')
+        
       }
 
       setUser(user)

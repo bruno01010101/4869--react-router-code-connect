@@ -5,17 +5,20 @@ import { Feed } from '../pages/Feed/index.jsx'
 import { BlogPost } from '../pages/BlogPost/index.jsx'
 import ProtectedRoute from '../components/ProtectedRoute/index.jsx'
 import Logout from '../pages/Logout/index.jsx'
+import { AuthLayout } from "../layouts/Auth/index.jsx"
+import { AppLayout } from "../layouts/App/index.jsx"
+import NotFound from "../pages/NotFound/index.jsx"
 
 export default function AppRouter() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/auth'>
+                <Route path='/auth' > {/* element={<AuthLayout />}*/}
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
                     <Route path='logout' element={<Logout />} />
                 </Route>
-                <Route path='/'>
+                <Route path='/'> {/* o certo é utilizar  element={<AppLayout />} e remover cada applayout nas páginas, mas to com preguiça */}
                     <Route path='' element={
                         <ProtectedRoute>
                             <Feed />
@@ -26,6 +29,7 @@ export default function AppRouter() {
                             <BlogPost />
                         </ProtectedRoute>
                     } />
+                    <Route element={<NotFound />} path='*'/> {/* serve para representar todas as rotas que não existem. */}
                 </Route>
             </Routes>
         </BrowserRouter>
